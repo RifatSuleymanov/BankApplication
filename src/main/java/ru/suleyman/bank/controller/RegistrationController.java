@@ -1,5 +1,6 @@
 package ru.suleyman.bank.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class RegistrationController {
     private final ClientService clientService;
 
     @PostMapping("")
-    public String registration(@RequestBody Client client) {
+    public String registration(@Valid @RequestBody Client client) {
         log.info("Метод регистрация клиента");
         clientService.addClient(client);
         return "Клиент успешно зарегистрирован!";

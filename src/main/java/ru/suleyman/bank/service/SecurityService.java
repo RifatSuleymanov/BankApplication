@@ -18,12 +18,10 @@ public class SecurityService implements UserDetailsService {
     @Autowired
     private ClientRepository clientRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Optional<Client> client = clientRepository.findByLogin(login);
         return client.map(MyClientDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException(login + " incorrect"));
     }
-
 }
