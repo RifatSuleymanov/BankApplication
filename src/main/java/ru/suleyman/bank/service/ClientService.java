@@ -108,34 +108,28 @@ public class ClientService {
     }
 
     public Page<Client> searchClients(LocalDate birthDate, String phone, String name, String email, Pageable pageable) {
-        // Начальная спецификация, устанавливается в null, т.е. без условий
         Specification<Client> spec = Specification.where(null);
 
-        // Если передана дата рождения, добавляем условие, что дата рождения клиента должна быть позже указанной даты
         if (birthDate != null) {
             spec = spec.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.greaterThan(root.get("birthDate"), birthDate));
         }
 
-        // Если передан телефон, добавляем условие, что телефон клиента должен совпадать с указанным
         if (phone != null && !phone.isEmpty()) {
             spec = spec.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.equal(root.get("phone"), phone));
         }
 
-        // Если передано имя, добавляем условие, что имя клиента должно начинаться с указанного текста
         if (name != null && !name.isEmpty()) {
             spec = spec.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get("name"), name + "%"));
         }
 
-        // Если передан email, добавляем условие, что email клиента должен совпадать с указанным
         if (email != null && !email.isEmpty()) {
             spec = spec.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.equal(root.get("email"), email));
         }
 
-        // Выполняем запрос с учетом всех собранных условий и параметров пагинации/сортировки
         return clientRepository.findAll(spec, pageable);
     }
 
