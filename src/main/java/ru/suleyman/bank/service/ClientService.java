@@ -133,29 +133,23 @@ public class ClientService {
         return clientRepository.findAll(spec, pageable);
     }
 
-    @Scheduled(fixedRate = 60000) // Выполняется каждые 60 000 миллисекунд (1 минута)
+    @Scheduled(fixedRate = 60000)
     public void updateBalances() {
-        // Получение списка всех клиентов из репозитория
         List<Client> clients = clientRepository.findAll();
 
         // Итерация по списку клиентов
         for (Client client : clients) {
-            // Получение начального и текущего балансов клиента
             BigDecimal initialBalance = client.getInitialBalance();
             BigDecimal currentBalance = client.getBalance();
-            // Вычисление максимально допустимого баланса (207% от начального депозита)
             BigDecimal maxBalance = initialBalance.multiply(BigDecimal.valueOf(2.07));
-            // Вычисление нового баланса с увеличением на 5%
             BigDecimal newBalance = currentBalance.multiply(BigDecimal.valueOf(1.05));
 
-            // Проверка, чтобы новый баланс не превышал максимально допустимый
+
             if (newBalance.compareTo(maxBalance) > 0) {
                 newBalance = maxBalance;
             }
 
-            // Установка нового баланса клиенту
             client.setBalance(newBalance);
-            // Сохранение изменений в базу данных через репозиторий
             clientRepository.save(client);
         }
     }
