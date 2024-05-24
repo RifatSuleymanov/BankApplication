@@ -24,17 +24,20 @@ public class ClientController {
 
     @GetMapping("")
     public List<Client> findAll() {
+        log.info("Метод findAll");
         return clientService.findAll();
     }
 
     @DeleteMapping("/{id}/phone")
     public String deletePhone(@PathVariable Long id) {
+        log.info("Метод deletePhone");
         clientService.deleteClientPhone(id);
         return "Телефон клиента успешно удален";
     }
 
     @DeleteMapping("/{id}/email")
     public String deleteEmail(@PathVariable Long id) {
+        log.info("Метод deleteEmail");
         clientService.deleteClientEmail(id);
         return "Email клиента успешно удален";
     }
@@ -43,12 +46,14 @@ public class ClientController {
     public String transfer(@RequestParam Long fromUserId,
                            @RequestParam Long toUserId,
                            @RequestParam BigDecimal amount) {
+        log.info("Метод transfer");
         clientService.transfer(fromUserId, toUserId, amount);
         return "Перевод прошло успешно";
     }
 
     @PutMapping("/{id}/contact")
     public String updateContactInfo(@PathVariable Long id, @RequestParam(required = false) String phone, @RequestParam(required = false) String email) {
+        log.info("Метод обновление {id}/contact");
         try {
             clientService.updateClientContactInfo(id, phone, email);
             return "Контактная информация успешно обновлена";
@@ -66,6 +71,7 @@ public class ClientController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email,
             Pageable pageable) {
+        log.info("Метод поиска /search");
 
         LocalDate birthDateParsed = null;
         if (birthDate != null) {
