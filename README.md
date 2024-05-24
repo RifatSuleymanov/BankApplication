@@ -10,6 +10,8 @@
     7.  Логирование @Slf4j
 
 База данных PosgreSQL
+
+
 ![image](https://github.com/RifatSuleymanov/BankApplication/assets/117975440/3f0c393a-d3ef-41c1-9d2d-5732ad9ba59a)
 
 
